@@ -7,7 +7,7 @@ from PIL import Image
 model = tf.keras.models.load_model("model_mineral.h5")
 
 # Kelas sesuai urutan saat training (urutannya harus sama persis)
-class_names = ["malachite", "chrysocolla", "pyrite", "biotite", "quartz", "muscovite", "bornite"]
+class_names = ["malachite", "chrysocolla", "pyrite", "biotite", "bornite", "muscovite", "quartz"]
 
 # Judul aplikasi
 st.set_page_config(page_title="Mineral Classifier", layout="centered")
