@@ -29,10 +29,19 @@ if uploaded_file is not None:
     img_array = img_array / 255.0  # normalisasi jika model dilatih dengan rescale
 
     # Prediksi
-    prediction = model.predict(img_array)
-    predicted_class = class_names[np.argmax(prediction)]
-    confidence = np.max(prediction) * 100
+    prediction = model.predict(img_array)[0]  # ambil array 1 dimensi (karena 1 gambar)
 
-    # Tampilkan hasil
-    st.markdown(f"### Prediksi: `{predicted_class}`")
+    # Urutkan dari confidence tertinggi ke terendah
+    sorted_indices = np.argsort(prediction)[::-1]
+
+    # Tampilkan prediksi tertinggi
+    predicted_class = class_names[sorted_indices[0]]
+    confidence = prediction[sorted_indices[0]] * 100
+    st.markdown(f"### Prediksi Utama: `{predicted_class}`")
     st.markdown(f"**Confidence:** {confidence:.2f}%")
+
+    # Tampilkan semua confidence
+    st.markdown("### Confidence Semua Kelas:")
+    for i in sorted_indices:
+        st.markdown(f"- **{class_names[i]}**: {prediction[i]*100:.2f}%")
+
